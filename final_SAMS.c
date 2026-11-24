@@ -588,7 +588,7 @@ void Teacher_Dashboard()
             choice = 0;
             continue;
         }
-
+//Using switch command to handle different cases
         switch(choice)
         {
             case 1:
