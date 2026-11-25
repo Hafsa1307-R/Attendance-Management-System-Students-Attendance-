@@ -1,14 +1,21 @@
+/*
+ * Project:       ATTENDANCE MANAGEMENT SYSTEM
+ * Contributors:  Hafsa Imran (CS-26013) 
+                  Afshan Waheed (CS-26007) 
+                  Noor ul Huda (CS-26015) 
+                  Anoosha Qamar(CS-26020) 
+ * Date:          27/11/2026
+ */
+
+
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
 
 #define MAX_STUDENTS 100
 #define REQUIRED_ATTENDANCE 75.0
 #define RED "\033[31m"
 #define RESET "\033[0m"
 #define GREEN "\033[32m"
-#define RESET "\033[0m"
-
 
 // FUNCTION PROTOTYPES
 
@@ -153,102 +160,6 @@ int main()
 }
 
 
-// =====================================================
-// COMMON HELPER FUNCTIONS
-// =====================================================
-
-// Clear remaining characters from input
-
-void clear_input()
-{
-    int ch;
-
-    while((ch = getchar()) != '\n' && ch != EOF);
-}
-
-
-// Read an integer safely
-
-int read_int(const char *prompt, int *value)
-{
-    printf("%s", prompt);
-
-    if(scanf("%d", value) != 1)
-    {
-        printf("\nInvalid Input! Enter a number.\n");
-        clear_input();
-        return 0;
-    }
-
-    clear_input();
-
-    return 1;
-}
-
-
-// Read one student record from file
-
-int read_student(FILE *fp, struct Student *ptr)
-{
-    return fscanf(fp, "%d,%49[^,],%29[^,],%d,%14[^\n]",
-                  &ptr->id, ptr->name, ptr->department,
-                  &ptr->semester, ptr->gender) == 5;
-}
-
-
-// Read one course record from file
-
-
-// Read one valid course record from file
-
-int read_course(FILE *fp, struct Course *ptr)
-{
-    char line[200];
-
-    while(fgets(line, sizeof(line), fp))
-    {
-        if(sscanf(line, "%d,%49[^,],%19[^,],%29[^,],%d",
-                  &ptr->courseID, ptr->courseTitle,
-                  ptr->courseCode, ptr->department,
-                  &ptr->semester) == 5)
-        {
-            return 1;
-        }
-    }
-
-    return 0;
-}
-
-
-
-// Read one attendance record from file
-
-int read_attendance(FILE *fp, struct Attendance *ptr)
-{
-    return fscanf(fp, "%d,%d,%14[^,],%9[^\n]",
-                  &ptr->studentID, &ptr->courseID,
-                  ptr->date, ptr->status) == 4;
-}
-
-
-// Replace original file with temporary file
-
-int replace_file(const char *original, const char *temporary)
-{
-    if(remove(original) != 0)
-    {
-        printf("\nError removing original file!\n");
-        return 0;
-    }
-
-    if(rename(temporary, original) != 0)
-    {
-        printf("\nError renaming temporary file!\n");
-        return 0;
-    }
-
-    return 1;
-}
 
 
 // =====================================================
@@ -588,7 +499,7 @@ void Teacher_Dashboard()
             choice = 0;
             continue;
         }
-//Using switch command to handle different cases
+
         switch(choice)
         {
             case 1:
@@ -2867,4 +2778,100 @@ void view_attendance_percentage()
     printf("===============================================================\n");
 
     printf("\nRequired Attendance: %.2f%%\n", REQUIRED_ATTENDANCE);
+}
+// =====================================================
+// COMMON HELPER FUNCTIONS
+// =====================================================
+
+// Clear remaining characters from input
+
+void clear_input()
+{
+    int ch;
+
+    while((ch = getchar()) != '\n' && ch != EOF);
+}
+
+
+// Read an integer safely
+
+int read_int(const char *prompt, int *value)
+{
+    printf("%s", prompt);
+
+    if(scanf("%d", value) != 1)
+    {
+        printf("\nInvalid Input! Enter a number.\n");
+        clear_input();
+        return 0;
+    }
+
+    clear_input();
+
+    return 1;
+}
+
+
+// Read one student record from file
+
+int read_student(FILE *fp, struct Student *ptr)
+{
+    return fscanf(fp, "%d,%49[^,],%29[^,],%d,%14[^\n]",
+                  &ptr->id, ptr->name, ptr->department,
+                  &ptr->semester, ptr->gender) == 5;
+}
+
+
+// Read one course record from file
+
+
+// Read one valid course record from file
+
+int read_course(FILE *fp, struct Course *ptr)
+{
+    char line[200];
+
+    while(fgets(line, sizeof(line), fp))
+    {
+        if(sscanf(line, "%d,%49[^,],%19[^,],%29[^,],%d",
+                  &ptr->courseID, ptr->courseTitle,
+                  ptr->courseCode, ptr->department,
+                  &ptr->semester) == 5)
+        {
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+
+
+// Read one attendance record from file
+
+int read_attendance(FILE *fp, struct Attendance *ptr)
+{
+    return fscanf(fp, "%d,%d,%14[^,],%9[^\n]",
+                  &ptr->studentID, &ptr->courseID,
+                  ptr->date, ptr->status) == 4;
+}
+
+
+// Replace original file with temporary file
+
+int replace_file(const char *original, const char *temporary)
+{
+    if(remove(original) != 0)
+    {
+        printf("\nError removing original file!\n");
+        return 0;
+    }
+
+    if(rename(temporary, original) != 0)
+    {
+        printf("\nError renaming temporary file!\n");
+        return 0;
+    }
+
+    return 1;
 }
